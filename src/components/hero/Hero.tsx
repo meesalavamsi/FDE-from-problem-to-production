@@ -71,7 +71,7 @@ export const Hero: React.FC = () => {
             className="w-full sm:w-auto px-9 py-4 rounded-xl glass-panel hover:bg-slate-900/90 text-slate-200 font-bold text-sm tracking-wider border border-slate-700/80 flex items-center justify-center space-x-2.5 transition-all"
           >
             <Cpu className="w-5 h-5 text-cyan-400" />
-            <span>EXPLORE THE 24-WEEK ROADMAP</span>
+            <span>EXPLORE THE 3-MONTH ROADMAP</span>
           </button>
         </div>
 
