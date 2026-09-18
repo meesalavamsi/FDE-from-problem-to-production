@@ -10,7 +10,7 @@ export const Navbar: React.FC = () => {
     { id: 'hero', label: 'Overview', icon: Compass },
     { id: 'story', label: 'Nexora Crisis', icon: Terminal },
     { id: 'fde-loop', label: 'FDE Lifecycle', icon: Cpu },
-    { id: 'roadmap', label: '24-Week Missions', icon: ShieldCheck },
+    { id: 'roadmap', label: '12-Week Missions', icon: ShieldCheck },
     { id: 'scenarios', label: 'Scenario Engine', icon: Activity },
     { id: 'command-center', label: 'War Room', icon: Layers },
     { id: 'labs', label: 'Interactive Labs', icon: Cpu },
@@ -99,7 +99,7 @@ export const Navbar: React.FC = () => {
 
           {/* Mission Count Badge */}
           <div className="flex items-center space-x-2 bg-slate-950 border border-emerald-500/30 rounded-xl px-3.5 py-1.5 font-mono text-xs">
-            <span className="text-emerald-400 font-extrabold">{completedMissions.length}/24</span>
+            <span className="text-emerald-400 font-extrabold">{completedMissions.filter(id => id <= 12).length}/12</span>
             <span className="text-slate-400 hidden md:inline">Missions</span>
           </div>
 

@@ -4,15 +4,15 @@ export const CURRICULUM_DATA: Mission[] = [
   {
     id: 1,
     week: "Week 1",
-    title: "Python for Enterprise AI",
-    phase: "Phase 1: Technical Skills",
+    month: "Month 1: Systems & Core AI",
+    title: "Enterprise Async Python & High-Throughput Microservices",
     category: "Backend & Systems",
     mission: "Architect high-throughput, async REST APIs with strict Pydantic schema validation for Nexora's document ingestion portal.",
     customerStory: "Nexora's HR department receives 4,000 PDF resumes daily. Their legacy Flask script crashes under concurrent requests and returns unstructured 500 errors to internal clients.",
     businessProblem: "Document parsing bottlenecks slow down hiring pipelines by 3.5 days per candidate, causing high drop-off rates.",
     currentEnvironment: [
-      "Legacy Python 2.7 monolithic Flask server",
-      "Synchronous blocking requests",
+      "Legacy Python monolithic Flask server",
+      "Synchronous blocking HTTP requests",
       "No schema validation or request throttling",
       "Basic file-system storage without security scanning"
     ],
@@ -20,7 +20,7 @@ export const CURRICULUM_DATA: Mission[] = [
     concepts: [
       "FastAPI Async/Await event loop concurrency",
       "Pydantic V2 schema validation & serialization",
-      "Custom exception handlers and standardized error responses",
+      "Custom exception handlers and standardized RFC-7807 error responses",
       "Structured JSON logging with trace IDs",
       "OAuth2 Bearer token authentication"
     ],
@@ -39,14 +39,14 @@ export const CURRICULUM_DATA: Mission[] = [
           reasoning: "Pydantic validates types and sanitizes inputs before payload reaches internal database layers."
         },
         {
-          text: "Wrap incoming request body in `dict` and rely on try/except blocks.",
+          text: "Wrap incoming request body in raw dict and rely on try/except blocks.",
           isCorrect: false,
           consequence: "Malformed requests bypass validation, leading to runtime KeyError exceptions in production.",
           reasoning: "Raw dict access loses all type safety, automatic OpenAPI docs, and automated sanitization."
         }
       ]
     },
-    solution: "Implemented FastAPI with Pydantic schemas, `asyncio.Semaphore` rate limiting, and standard RFC-7807 error responses.",
+    solution: "Implemented FastAPI with Pydantic schemas, asyncio.Semaphore rate limiting, and standard RFC-7807 error responses.",
     miniProject: "Build an async resume parser microservice that handles 1,000 concurrent file uploads with <50ms endpoint overhead.",
     realWorldApplication: "Enterprise AI backends require bulletproof API contracts. AI components fail unpredictably if fed non-deterministic raw payload structures.",
     skillsUnlocked: ["FastAPI", "Async Concurrency", "Pydantic Schema Design", "Enterprise Logging"]
@@ -55,8 +55,8 @@ export const CURRICULUM_DATA: Mission[] = [
   {
     id: 2,
     week: "Week 2",
-    title: "Vibe Coding & Rapid Prototyping",
-    phase: "Phase 1: Technical Skills",
+    month: "Month 1: Systems & Core AI",
+    title: "AI-Assisted Prototyping & Security AST Auditing",
     category: "AI-Assisted Engineering",
     mission: "Leverage AI coding tools for rapid 48-hour MVP development while maintaining strict enterprise code review and security standards.",
     customerStory: "Nexora's VP of Product demands a working prototype of an automated invoice parser by Friday morning for the C-suite demo.",
@@ -105,8 +105,8 @@ export const CURRICULUM_DATA: Mission[] = [
   {
     id: 3,
     week: "Week 3",
-    title: "LLM Fundamentals & Grounded RAG",
-    phase: "Phase 1: Technical Skills",
+    month: "Month 1: Systems & Core AI",
+    title: "Foundation Model Principles & Grounded RAG",
     category: "AI & Vector Search",
     mission: "Design a high-precision Retrieval-Augmented Generation (RAG) architecture over Nexora's 50,000 internal PDF policy documents.",
     customerStory: "Nexora's 80,000 employees spend 45 minutes daily searching internal portals. A naïve LLM chatbot hallucinated outdated benefits policies.",
@@ -148,7 +148,7 @@ export const CURRICULUM_DATA: Mission[] = [
         }
       ]
     },
-    solution: "Deployed hybrid search (BM25 + Dense vector) with Cohere reranking and metadata temporal filters (`status: active`, `year: >=2024`).",
+    solution: "Deployed hybrid search (BM25 + Dense vector) with Cohere reranking and metadata temporal filters (status: active, year: >=2024).",
     miniProject: "Build a production RAG pipeline with parent-child chunking, hybrid retrieval, reranking, and verbatim citation verification.",
     realWorldApplication: "Grounding is non-negotiable in enterprise. If AI cannot cite exact document source paragraphs, enterprise security will reject deployment.",
     skillsUnlocked: ["Vector Databases", "Hybrid Search", "Semantic Chunking", "Cohere Reranking", "Groundedness Evaluation"]
@@ -156,61 +156,9 @@ export const CURRICULUM_DATA: Mission[] = [
 
   {
     id: 4,
-    week: "Weeks 4–6",
-    title: "Agentic AI, Multi-Agent Systems & MCP",
-    phase: "Phase 1: Technical Skills",
-    category: "Agents & MCP",
-    mission: "Build an autonomous multi-agent orchestration framework using Model Context Protocol (MCP) to automate IT support ticket resolution.",
-    customerStory: "Nexora's IT helpdesk receives 12,000 password resets, software access requests, and VPN troubleshooting tickets per month.",
-    businessProblem: "Average ticket resolution time is 14 hours, costing $35 per ticket in human agent labor.",
-    currentEnvironment: [
-      "ServiceNow ITSM system",
-      "Active Directory LDAP identity server",
-      "Slack enterprise workspace",
-      "Strict authorization boundaries between L1 and L3 IT admins"
-    ],
-    fdeObjective: "Construct a multi-agent system (Router Agent, ServiceNow Agent, ActiveDirectory Agent) connected via MCP servers with human-in-the-loop approvals.",
-    concepts: [
-      "Tool Calling & Function Calling schemas",
-      "ReAct (Reason + Act) & Plan-and-Execute agent loops",
-      "State machines & Agent Memory persistence",
-      "Human-in-the-Loop (HITL) approval breakpoints for high-risk tools",
-      "Model Context Protocol (MCP) Architecture: Host, Client, Server, Tools, Resources, Prompts",
-      "Guardrails: Input validation, output schema validation, rate limiting, permissions"
-    ],
-    technology: ["LangGraph", "Model Context Protocol (MCP) SDK", "FastAPI", "Redis", "Pydantic", "ServiceNow API"],
-    architectureSummary: "Slack User -> Router Agent -> MCP Client -> [ServiceNow MCP Server | ActiveDirectory MCP Server] -> Human Approval Gate -> Production Execution",
-    interactiveChallengeTitle: "Tool Loop Infinite Recursion",
-    interactiveChallengeDescription: "An agent called `check_ticket_status` repeatedly 50 times in a loop because tool response format didn't match system prompt expectations.",
-    failureScenario: "An un-gated Agent executed `delete_user_account` when asked to 'clean up user record' because tool scope was over-privileged.",
-    decisionPoint: {
-      question: "How do you protect production infrastructure when giving an AI agent access to write-level enterprise tools?",
-      options: [
-        {
-          text: "Implement Least-Privilege MCP Server tool permissions and require explicit Human-in-the-Loop approval for write/delete actions.",
-          isCorrect: true,
-          consequence: "Agent requests approval in Slack with detailed diff before executing sensitive changes.",
-          reasoning: "Autonomous write actions on core infrastructure must always have safety boundaries and approval workflows."
-        },
-        {
-          text: "Rely on system prompt instructions telling the agent: 'Never delete records without asking.'",
-          isCorrect: false,
-          consequence: "Prompt injection attack bypasses system prompt, resulting in accidental account deletion.",
-          reasoning: "Prompt instructions are soft suggestions, not deterministic security boundaries."
-        }
-      ]
-    },
-    solution: "Engineered a LangGraph stateful multi-agent system with MCP server isolation and Slack-integrated human approval gates.",
-    miniProject: "Create an IT Support Agent suite with custom MCP servers for GitHub, Database, and ServiceNow API integrations.",
-    realWorldApplication: "Agents without deterministic boundaries, MCP standards, and state management are dangerous toys in enterprise environments.",
-    skillsUnlocked: ["LangGraph", "Model Context Protocol (MCP)", "Multi-Agent Orchestration", "Tool Permissions", "Human-in-the-Loop Systems"]
-  },
-
-  {
-    id: 7,
-    week: "Week 7",
-    title: "ERP & Enterprise Systems Integration",
-    phase: "Phase 1: Technical Skills",
+    week: "Week 4",
+    month: "Month 1: Systems & Core AI",
+    title: "Enterprise Integration Adapters & System Interoperability",
     category: "Enterprise Systems",
     mission: "Integrate AI workflows directly into Nexora's legacy SAP ERP and Salesforce CRM via OAuth2 and event-driven webhooks.",
     customerStory: "Nexora's sales reps enter client notes in Salesforce, but inventory allocation relies on SAP R/3. Data syncing requires manual double-entry.",
@@ -258,10 +206,62 @@ export const CURRICULUM_DATA: Mission[] = [
   },
 
   {
-    id: 8,
-    week: "Week 8",
-    title: "DevOps & Containerization for AI Systems",
-    phase: "Phase 1: Technical Skills",
+    id: 5,
+    week: "Week 5",
+    month: "Month 2: Agents, MCP & Infrastructure",
+    title: "Autonomous Multi-Agent Systems & MCP Orchestration",
+    category: "Agents & MCP",
+    mission: "Build an autonomous multi-agent orchestration framework using Model Context Protocol (MCP) to automate IT support ticket resolution.",
+    customerStory: "Nexora's IT helpdesk receives 12,000 password resets, software access requests, and VPN troubleshooting tickets per month.",
+    businessProblem: "Average ticket resolution time is 14 hours, costing $35 per ticket in human agent labor.",
+    currentEnvironment: [
+      "ServiceNow ITSM system",
+      "Active Directory LDAP identity server",
+      "Slack enterprise workspace",
+      "Strict authorization boundaries between L1 and L3 IT admins"
+    ],
+    fdeObjective: "Construct a multi-agent system (Router Agent, ServiceNow Agent, ActiveDirectory Agent) connected via MCP servers with human-in-the-loop approvals.",
+    concepts: [
+      "Tool Calling & Function Calling schemas",
+      "ReAct (Reason + Act) & Plan-and-Execute agent loops",
+      "State machines & Agent Memory persistence",
+      "Human-in-the-Loop (HITL) approval breakpoints for high-risk tools",
+      "Model Context Protocol (MCP) Architecture: Host, Client, Server, Tools, Resources, Prompts",
+      "Guardrails: Input validation, output schema validation, rate limiting, permissions"
+    ],
+    technology: ["LangGraph", "Model Context Protocol (MCP) SDK", "FastAPI", "Redis", "Pydantic", "ServiceNow API"],
+    architectureSummary: "Slack User -> Router Agent -> MCP Client -> [ServiceNow MCP Server | ActiveDirectory MCP Server] -> Human Approval Gate -> Production Execution",
+    interactiveChallengeTitle: "Tool Loop Infinite Recursion",
+    interactiveChallengeDescription: "An agent called check_ticket_status repeatedly 50 times in a loop because tool response format didn't match system prompt expectations.",
+    failureScenario: "An un-gated Agent executed delete_user_account when asked to 'clean up user record' because tool scope was over-privileged.",
+    decisionPoint: {
+      question: "How do you protect production infrastructure when giving an AI agent access to write-level enterprise tools?",
+      options: [
+        {
+          text: "Implement Least-Privilege MCP Server tool permissions and require explicit Human-in-the-Loop approval for write/delete actions.",
+          isCorrect: true,
+          consequence: "Agent requests approval in Slack with detailed diff before executing sensitive changes.",
+          reasoning: "Autonomous write actions on core infrastructure must always have safety boundaries and approval workflows."
+        },
+        {
+          text: "Rely on system prompt instructions telling the agent: 'Never delete records without asking.'",
+          isCorrect: false,
+          consequence: "Prompt injection attack bypasses system prompt, resulting in accidental account deletion.",
+          reasoning: "Prompt instructions are soft suggestions, not deterministic security boundaries."
+        }
+      ]
+    },
+    solution: "Engineered a LangGraph stateful multi-agent system with MCP server isolation and Slack-integrated human approval gates.",
+    miniProject: "Create an IT Support Agent suite with custom MCP servers for GitHub, Database, and ServiceNow API integrations.",
+    realWorldApplication: "Agents without deterministic boundaries, MCP standards, and state management are dangerous toys in enterprise environments.",
+    skillsUnlocked: ["LangGraph", "Model Context Protocol (MCP)", "Multi-Agent Orchestration", "Tool Permissions", "Human-in-the-Loop Systems"]
+  },
+
+  {
+    id: 6,
+    week: "Week 6",
+    month: "Month 2: Agents, MCP & Infrastructure",
+    title: "AI Containerization & Cloud Infrastructure",
     category: "Infrastructure & Cloud",
     mission: "Containerize multi-container AI services into Kubernetes pods with GPU node affinity, health probes, and zero-downtime CI/CD deployment.",
     customerStory: "The data science team developed a model service on a local workstation, but it fails to run on Nexora's internal Red Hat OpenShift cluster.",
@@ -285,18 +285,18 @@ export const CURRICULUM_DATA: Mission[] = [
     architectureSummary: "Git Push -> GitLab CI Pipeline -> Security Scan -> Docker Build -> Container Registry -> Helm Upgrade -> K8s Rolling Deploy -> Vault Secret Sync",
     interactiveChallengeTitle: "Pod OOMKilled Loop",
     interactiveChallengeDescription: "PyTorch worker pod gets terminated with status OOMKilled during large batch embeddings processing. Fix the container config.",
-    failureScenario: "Kubernetes readiness probe checked `/health` before vector model loaded into RAM, triggering continuous restart loop.",
+    failureScenario: "Kubernetes readiness probe checked /health before vector model loaded into RAM, triggering continuous restart loop.",
     decisionPoint: {
       question: "Your AI service container takes 45 seconds to download model weights into GPU RAM on boot. How do you configure Kubernetes health checks?",
       options: [
         {
-          text: "Configure a `startupProbe` with sufficient failureThreshold to defer `livenessProbe` execution until initial model load completes.",
+          text: "Configure a startupProbe with sufficient failureThreshold to defer livenessProbe execution until initial model load completes.",
           isCorrect: true,
           consequence: "Pod initializes smoothly without Kubernetes killing it during cold boot weight loading.",
           reasoning: "Startup probes prevent Kubernetes from killing slow-booting containers before initialization."
         },
         {
-          text: "Set `livenessProbe` initialDelaySeconds to 2 seconds and timeoutSeconds to 1 second.",
+          text: "Set livenessProbe initialDelaySeconds to 2 seconds and timeoutSeconds to 1 second.",
           isCorrect: false,
           consequence: "Kubernetes perpetually kills and restarts the pod before model finishes loading into memory.",
           reasoning: "Aggressive liveness probes cause crash loops on services with slow initialization phases."
@@ -310,10 +310,10 @@ export const CURRICULUM_DATA: Mission[] = [
   },
 
   {
-    id: 9,
-    week: "Weeks 9–10",
-    title: "LLMOps, Observability & Evaluation",
-    phase: "Phase 1: Technical Skills",
+    id: 7,
+    week: "Week 7",
+    month: "Month 2: Agents, MCP & Infrastructure",
+    title: "Telemetry, LLMOps & Automated Quality Benchmarking",
     category: "LLMOps & Monitoring",
     mission: "Establish end-to-end tracing, cost telemetry, token optimization, and automated RAG evaluation metrics for Nexora's AI platform.",
     customerStory: "Nexora's CFO received an unexpected $45,000 monthly OpenAI invoice. Simultaneously, users reported silent response quality drops.",
@@ -362,10 +362,10 @@ export const CURRICULUM_DATA: Mission[] = [
   },
 
   {
-    id: 11,
-    week: "Weeks 11–12",
-    title: "Enterprise System Design for AI",
-    phase: "Phase 1: Technical Skills",
+    id: 8,
+    week: "Week 8",
+    month: "Month 2: Agents, MCP & Infrastructure",
+    title: "Fault-Tolerant Enterprise System Architecture",
     category: "System Design",
     mission: "Design a fault-tolerant, scalable High-Level Architecture (HLD) and Low-Level Architecture (LLD) for Nexora's 80,000-user Enterprise AI Platform.",
     customerStory: "Nexora wants a unified Enterprise AI Platform serving HR, Legal, Sales, and IT departments simultaneously with isolated data security.",
@@ -414,10 +414,10 @@ export const CURRICULUM_DATA: Mission[] = [
   },
 
   {
-    id: 13,
-    week: "Weeks 13–14",
-    title: "Problem Discovery & User Research",
-    phase: "Phase 2: Product Management & Soft Skills",
+    id: 9,
+    week: "Week 9",
+    month: "Month 3: Product, Security & Business ROI",
+    title: "Strategic Customer Discovery & Workflow Mapping",
     category: "Product & Discovery",
     mission: "Conduct structured stakeholder interviews across 5 Nexora divisions to transform vague user complaints into quantified engineering problem statements.",
     customerStory: "Nexora executives asked for an 'AI transformation strategy', but individual department heads gave completely conflicting priorities.",
@@ -427,69 +427,19 @@ export const CURRICULUM_DATA: Mission[] = [
       "Vague requests: 'Make our search faster', 'Automate report writing'",
       "Multiple conflicting internal budget holders"
     ],
-    fdeObjective: "Execute the FDE Discovery Framework: Stakeholder Mapping -> Pain-Point Quantification -> Root-Cause Analysis (5 Whys) -> ROI Use-Case Matrix.",
+    fdeObjective: "Execute the FDE Discovery Framework: Stakeholder Mapping -> Pain-Point Quantification -> Root-Cause Analysis (5 Whys) -> Swim-lane Process Diagrams.",
     concepts: [
       "FDE Discovery Framework & Stakeholder Mapping",
       "The '5 Whys' root-cause analysis methodology",
+      "Process Mapping (BPMN 2.0 Swim-lane Diagrams)",
       "Quantifying qualitative feedback (hours lost, financial cost, error frequency)",
-      "Feasibility vs Impact prioritization matrix",
-      "Defining clear success metrics & Key Performance Indicators (KPIs)"
+      "Feasibility vs Impact prioritization matrix"
     ],
-    technology: ["Miro / Figma", "Discovery Interview Framework", "ROI Prioritization Matrix"],
-    architectureSummary: "Qualitative Interviews -> 5-Whys Analysis -> Operational Metric Extraction -> Impact vs Feasibility Matrix -> Prioritized Use Case Roadmap",
-    interactiveChallengeTitle: "Conflicting Stakeholder Demands",
-    interactiveChallengeDescription: "CISO demands zero data sharing; VP Sales demands real-time web scraping AI. Resolve the architectural conflict during discovery.",
-    failureScenario: "Built a complex automated report generator only to discover end-users preferred a simple 1-click summary button inside Outlook.",
-    decisionPoint: {
-      question: "A business lead says: 'Our team needs a custom-trained LLM model for document processing.' What is the FDE's first action?",
-      options: [
-        {
-          text: "Conduct a 5-Whys root cause analysis to discover the exact workflow pain point before committing to expensive custom model training.",
-          isCorrect: true,
-          consequence: "Discovered the true problem was unindexed PDF tables; solved it in 2 days with an open-source parser, saving $200k.",
-          reasoning: "Always discover the underlying operational problem before selecting technical solutions."
-        },
-        {
-          text: "Immediately draft a proposal to fine-tune a Llama 3 70B model on GPU clusters.",
-          isCorrect: false,
-          consequence: "Spent $150,000 on GPU cluster training, only to realize data quality issues caused the initial errors.",
-          reasoning: "Jumping to complex solutions without root-cause discovery wastes time and capital."
-        }
-      ]
-    },
-    solution: "Delivered a quantified Discovery Matrix ranking 8 candidate use cases by estimated ROI, technical risk, and implementation effort.",
-    miniProject: "Conduct simulated stakeholder interviews with Nexora personas, extract core requirements, and build a Use-Case Prioritization Matrix.",
-    realWorldApplication: "An FDE must be a detective before being a builder. Building the wrong system cleanly is still a catastrophic engineering failure.",
-    skillsUnlocked: ["Problem Discovery", "Stakeholder Interviews", "Root Cause Analysis (5 Whys)", "Use-Case Prioritization", "KPI Definition"]
-  },
-
-  {
-    id: 15,
-    week: "Week 15",
-    title: "AS-IS Process Mapping with Swim-lane Diagrams",
-    phase: "Phase 2: Product Management & Soft Skills",
-    category: "Process Engineering",
-    mission: "Map Nexora's current manual procurement contract review workflow using cross-functional Swim-lane diagrams to pinpoint exact AI intervention nodes.",
-    customerStory: "Procurement contract approvals take 18 days. The legal team blames procurement, procurement blames finance, and finance blames vendors.",
-    businessProblem: "Lack of process transparency leads to bottleneck finger-pointing and delayed vendor onboarding.",
-    currentEnvironment: [
-      "Manual email exchanges with attached Word documents",
-      "No central tracking system or status visibility",
-      "Manual cross-referencing of contract terms against policy sheets"
-    ],
-    fdeObjective: "Construct precise AS-IS Swim-lane diagrams detailing Actors, Systems, Manual Actions, Handoff Latency, and AI Opportunity Nodes.",
-    concepts: [
-      "BPMN (Business Process Model and Notation) standards",
-      "Swim-lane diagram architecture: Actors (User, Systems, AI) vs Time Steps",
-      "Identifying handoff friction, decision gates, and manual extraction steps",
-      "Measuring Cycle Time vs Process Time",
-      "Targeted AI Insertion Points: Automated triage, entity extraction, policy checking"
-    ],
-    technology: ["Mermaid.js", "BPMN 2.0", "Lucidchart"],
-    architectureSummary: "Vendor (Submit) -> Legal (Manual Read 4h) -> Finance (Check Budget 2d) -> Procurement (Sign 3d) -> Systems (Manual SAP Entry 1d)",
+    technology: ["Mermaid.js", "BPMN 2.0", "Miro", "Discovery Interview Framework"],
+    architectureSummary: "Qualitative Interviews -> 5-Whys Analysis -> BPMN Swim-lane Process Mapping -> Operational Metric Extraction -> Prioritized Roadmap",
     interactiveChallengeTitle: "Isolating the Hidden Bottleneck",
-    interactiveChallengeDescription: "Review process takes 18 days, but active work time is only 3 hours. Identify where the 17.8 days of idle wait time occur.",
-    failureScenario: "Automated the contract draft step, but the 14-day manual compliance review bottleneck remained unchanged.",
+    interactiveChallengeDescription: "Contract approvals take 18 days, but active work time is only 3 hours. Identify where the 17.8 days of idle wait time occur.",
+    failureScenario: "Built a complex automated report generator only to discover end-users preferred a simple 1-click summary button inside Outlook.",
     decisionPoint: {
       question: "Where should an FDE insert AI into a multi-step human review process?",
       options: [
@@ -507,19 +457,19 @@ export const CURRICULUM_DATA: Mission[] = [
         }
       ]
     },
-    solution: "Mapped full AS-IS process, highlighted 3 key friction nodes, and proposed TO-BE workflow reducing cycle time from 18 days to 2 days.",
-    miniProject: "Generate an interactive Mermaid.js Swim-lane diagram mapping a complex enterprise onboarding workflow with highlighted AI insertion points.",
-    realWorldApplication: "You cannot automate what you do not understand. Process mapping reveals where AI actually creates business leverage.",
-    skillsUnlocked: ["Process Mapping (BPMN)", "Swim-lane Diagrams", "Cycle Time Analysis", "AI Insertion Node Design"]
+    solution: "Mapped full AS-IS process using Swim-lane diagrams, highlighted 3 key friction nodes, and proposed TO-BE workflow reducing cycle time from 18 days to 2 days.",
+    miniProject: "Conduct simulated stakeholder interviews with Nexora personas, extract core requirements, and generate an interactive Swim-lane diagram.",
+    realWorldApplication: "An FDE must be a detective before being a builder. Building the wrong system cleanly is still a catastrophic engineering failure.",
+    skillsUnlocked: ["Problem Discovery", "Stakeholder Interviews", "Root Cause Analysis (5 Whys)", "Process Mapping (BPMN)", "AI Insertion Node Design"]
   },
 
   {
-    id: 16,
-    week: "Weeks 16–17",
-    title: "Business Requirement Document (BRD) Mastery",
-    phase: "Phase 2: Product Management & Soft Skills",
+    id: 10,
+    week: "Week 10",
+    month: "Month 3: Product, Security & Business ROI",
+    title: "Technical Specification & Contract Governance (BRD/TDD)",
     category: "Documentation & Specs",
-    mission: "Author an airtight enterprise Business Requirement Document (BRD) for Nexora's Executive AI Copilot, securing sign-off from Legal, CISO, and Ops.",
+    mission: "Author an airtight enterprise Business Requirement Document (BRD) and Technical Design Document (TDD) for Nexora's Executive AI Copilot.",
     customerStory: "Previous AI initiative failed because the engineering team built features according to verbal agreements that business leaders later repudiated.",
     businessProblem: "Scope creep, moving goalposts, and ambiguous acceptance criteria causing budget overruns.",
     currentEnvironment: [
@@ -527,21 +477,21 @@ export const CURRICULUM_DATA: Mission[] = [
       "Strict legal compliance guidelines regarding data retention",
       "Conflicting functional expectations between business units"
     ],
-    fdeObjective: "Draft a formal BRD covering Executive Summary, Business Objectives, Functional Requirements, Non-Functional Requirements (NFRs), Constraints, and KPIs.",
+    fdeObjective: "Draft a formal BRD and TDD covering Objectives, Functional/Non-Functional SLAs, Data Schemas, OpenAPI Specs, and Acceptance Criteria.",
     concepts: [
-      "Anatomy of an Enterprise BRD",
-      "Functional Requirements (FR) vs Non-Functional Requirements (NFR)",
-      "Defining quantitative SLA targets (Uptime, Latency, Accuracy %)",
+      "Anatomy of Enterprise BRD & TDD Specifications",
+      "Functional Requirements vs Non-Functional SLAs (Uptime, Latency, Accuracy %)",
+      "OpenAPI 3.0 Contract Governance & Data Schemas",
       "Security, Compliance & Regulatory Constraints (SOC2, ISO27001, GDPR)",
       "Acceptance Criteria & Sign-off Governance frameworks"
     ],
-    technology: ["Markdown / Confluence", "BRD Enterprise Templates", "MoSCoW Prioritization"],
-    architectureSummary: "Business Problem -> Strategic Alignment -> Functional Spec -> NFRs & Security -> Acceptance Criteria -> Formal Stakeholder Sign-Off",
+    technology: ["OpenAPI / Swagger", "Mermaid.js Architecture Diagrams", "BRD/TDD Enterprise Templates"],
+    architectureSummary: "Business Problem -> BRD Functional Spec -> NFR SLAs -> OpenAPI Contract -> Data Model -> Security Matrix -> Acceptance Criteria",
     interactiveChallengeTitle: "NFR SLA Negotiation",
     interactiveChallengeDescription: "Operations wants 99.99% availability and <500ms latency. Negotiate realistic NFRs within the allocated $50k budget.",
-    failureScenario: "Project rejected at launch because the BRD forgot to specify that data must reside strictly within European Union cloud regions.",
+    failureScenario: "Project rejected at launch because the spec forgot to specify that data must reside strictly within European Union cloud regions.",
     decisionPoint: {
-      question: "How should an FDE state an AI system's accuracy requirement in a formal enterprise BRD?",
+      question: "How should an FDE state an AI system's accuracy requirement in a formal enterprise specification?",
       options: [
         {
           text: "Specify measurable quantitative metrics: '95% Groundedness score on gold-standard dataset, zero PII leaks, <2.0s latency @ 95th percentile.'",
@@ -557,118 +507,17 @@ export const CURRICULUM_DATA: Mission[] = [
         }
       ]
     },
-    solution: "Authored a complete 12-page BRD with explicit non-functional SLAs, securing written sign-off from CTO, CISO, and VP of Operations.",
-    miniProject: "Convert a set of raw customer interview notes into a formal enterprise BRD with functional requirements and quantitative acceptance criteria.",
-    realWorldApplication: "The BRD is the binding contract between business problems and technical solutions. Precision here prevents failure later.",
-    skillsUnlocked: ["Enterprise BRD Authoring", "Non-Functional Requirements (NFRs)", "SLA Definition", "Acceptance Criteria", "Scope Management"]
+    solution: "Authored a complete 12-page BRD/TDD specification with explicit non-functional SLAs, securing written sign-off from CTO, CISO, and VP of Operations.",
+    miniProject: "Convert raw customer interview notes into a formal enterprise BRD and TDD with OpenAPI schemas and quantitative acceptance criteria.",
+    realWorldApplication: "The specification is the binding contract between business problems and technical solutions. Precision here prevents failure later.",
+    skillsUnlocked: ["Enterprise BRD/TDD Specs", "OpenAPI Contract Design", "Non-Functional SLAs", "Data Model Schemas", "Acceptance Criteria"]
   },
 
   {
-    id: 18,
-    week: "Week 18",
-    title: "Technical Design Document (TDD) Architecture",
-    phase: "Phase 2: Product Management & Soft Skills",
-    category: "Documentation & Specs",
-    mission: "Translate the approved Nexora BRD into an actionable, comprehensive Technical Design Document (TDD) for internal and external engineering teams.",
-    customerStory: "Development team started building without a unified technical spec, resulting in incompatible API schemas between frontend and backend.",
-    businessProblem: "Rework and integration mismatches inflating engineering sprint costs by 40%.",
-    currentEnvironment: [
-      "Approved BRD with business requirements",
-      "Heterogeneous dev teams (Frontend, ML, Infrastructure, Security)",
-      "Need for explicit data schemas, API specs, and deployment plans"
-    ],
-    fdeObjective: "Produce an engineering TDD detailing Data Schemas, OpenAPI Specs, AI Orchestration Diagrams, Evaluation Harnesses, and Rollback Strategies.",
-    concepts: [
-      "BRD to TDD Translation Framework",
-      "API Contract Specification (OpenAPI 3.0 / JSON Schema)",
-      "Data Model Schemas (Vector Index Schema, Relational DB Schemas)",
-      "Security Architecture & Data Encryption in Transit / at Rest",
-      "Failure Modes and Disaster Recovery Planning in Specs"
-    ],
-    technology: ["OpenAPI / Swagger", "Mermaid.js Architecture Diagrams", "TDD Enterprise Spec"],
-    architectureSummary: "BRD Inputs -> System Architecture -> Data Model & Schema -> OpenAPI Interface -> AI Component Pipeline -> Security Spec -> Testing Strategy",
-    interactiveChallengeTitle: "Schema Breaking Changes",
-    interactiveChallengeDescription: "ML team changed vector payload output fields mid-sprint, breaking frontend rendering. Fix contract governance in TDD.",
-    failureScenario: "Security audit blocked deployment because TDD failed to specify encryption key rotation mechanisms for stored chat logs.",
-    decisionPoint: {
-      question: "What is the primary purpose of a Technical Design Document (TDD) in an enterprise AI deployment?",
-      options: [
-        {
-          text: "To provide a complete technical blueprint (APIs, schemas, architecture, security) so any senior engineer could build the system.",
-          isCorrect: true,
-          consequence: "Engineers execute in parallel with zero ambiguity, seamless API integration, and clean security review.",
-          reasoning: "A thorough TDD eliminates ambiguity and aligns frontend, backend, ML, and security sub-teams."
-        },
-        {
-          text: "To summarize high-level marketing concepts for non-technical executives.",
-          isCorrect: false,
-          consequence: "Engineers guess implementation details, resulting in broken integrations and failed security audits.",
-          reasoning: "High-level marketing summaries belong in pitch decks, not engineering specifications."
-        }
-      ]
-    },
-    solution: "Created an enterprise-grade TDD including OpenAPI specs, ER diagrams, vector search schemas, and detailed security access matrices.",
-    miniProject: "Draft a production TDD based on an approved BRD, complete with Mermaid sequence diagrams, API schemas, and failure recovery specs.",
-    realWorldApplication: "Great code cannot save a poor architectural design. The TDD guarantees technical rigor before writing a single line of code.",
-    skillsUnlocked: ["Technical Design Document (TDD)", "OpenAPI Contract Design", "Data Schemas", "Security Specifications", "Architecture Diagrams"]
-  },
-
-  {
-    id: 19,
-    week: "Weeks 19–20",
-    title: "Stakeholder Management & Executive Alignment",
-    phase: "Phase 2: Product Management & Soft Skills",
-    category: "Leadership & Communication",
-    mission: "Navigate conflicting agendas among Nexora's CTO, CISO, Finance VP, and Operations Lead to build consensus for AI platform deployment.",
-    customerStory: "CISO blocked deployment over security concerns, Finance refused additional budget, and Ops complained the tool was too complex.",
-    businessProblem: "Organizational gridlock stalling a $1.5M enterprise AI initiative 2 weeks prior to scheduled rollout.",
-    currentEnvironment: [
-      "CTO wants fast innovation and modern tech stack",
-      "CISO demands zero-trust security and data isolation",
-      "Finance demands clear ROI proof and tight cost controls",
-      "Operations demands simple user interface and minimal retraining"
-    ],
-    fdeObjective: "Apply the FDE Stakeholder Matrix: Map Concerns -> Translate Value to Audience Dialect -> Conduct Alignment Sessions -> Secure Joint Sign-Off.",
-    concepts: [
-      "Stakeholder Persona Alignment Matrix (CTO vs CISO vs CFO vs Ops)",
-      "Translating technical metrics (latency, tokens) into business value (cost, time saved)",
-      "De-escalation and constructive conflict resolution techniques",
-      "Managing executive expectations during unexpected project setbacks",
-      "Building internal champions across executive and operational layers"
-    ],
-    technology: ["Executive Briefing Frameworks", "Stakeholder Alignment Matrix", "Risk Mitigation Register"],
-    architectureSummary: "Identify Concerns -> Tailor Communication Dialect -> Present Risk-Mitigated Prototypes -> Address CISO/CFO Objections -> Unified Executive Consensus",
-    interactiveChallengeTitle: "The CISO Objection",
-    interactiveChallengeDescription: "CISO states: 'We cannot allow employee prompts to touch external cloud endpoints.' Formulate the FDE architectural compromise.",
-    failureScenario: "Presented a technical 40-slide deep dive into vector math to the CFO, failing to address their core question about payback period.",
-    decisionPoint: {
-      question: "How should an FDE present project status to the Chief Financial Officer (CFO)?",
-      options: [
-        {
-          text: "Focus on financial metrics: Cost per transaction, projected annual efficiency savings ($450k), payback period (4 months), and budget burn.",
-          isCorrect: true,
-          consequence: "CFO immediately approves budget expansion for Phase 2 rollout.",
-          reasoning: "Executives require communication in their domain dialect (financial ROI and risk mitigation)."
-        },
-        {
-          text: "Explain the details of HNSW vector indexing algorithm and LangGraph state nodes.",
-          isCorrect: false,
-          consequence: "CFO loses interest, questions value of technology, and pauses project funding.",
-          reasoning: "Deep technical jargon confuses business leaders and fails to demonstrate commercial value."
-        }
-      ]
-    },
-    solution: "Hosted a alignment workshop addressing CISO security with Azure Private Link, CFO costs with token caps, and Ops ease with Slack UI.",
-    miniProject: "Participate in simulated executive alignment meetings, tailoring pitch presentations for CTO, CISO, and CFO personas.",
-    realWorldApplication: "An FDE's code is useless if political friction prevents it from reaching production. Alignment is a core engineering requirement.",
-    skillsUnlocked: ["Stakeholder Management", "Executive Communication", "Conflict Resolution", "Financial Value Pitching", "Cross-Functional Alignment"]
-  },
-
-  {
-    id: 21,
-    week: "Weeks 21–22",
-    title: "User Acceptance Testing (UAT) & Production Go-Live",
-    phase: "Phase 2: Product Management & Soft Skills",
+    id: 11,
+    week: "Week 11",
+    month: "Month 3: Product, Security & Business ROI",
+    title: "Production UAT, Canary Launch & Rollback Engineering",
     category: "Deployment & Quality",
     mission: "Execute a structured 100-user User Acceptance Testing (UAT) program at Nexora and lead a zero-downtime production Go-Live launch.",
     customerStory: "In previous launches, unvetted bugs caused end-users to abandon new tools on Day 1, labeling them 'broken AI'.",
@@ -715,10 +564,10 @@ export const CURRICULUM_DATA: Mission[] = [
   },
 
   {
-    id: 23,
-    week: "Weeks 23–24",
-    title: "Change Management, Operational Handover & Proving ROI",
-    phase: "Phase 2: Product Management & Soft Skills",
+    id: 12,
+    week: "Week 12",
+    month: "Month 3: Product, Security & Business ROI",
+    title: "Change Management, Operational Handover & Financial ROI Verification",
     category: "Operations & ROI",
     mission: "Drive 85%+ employee adoption for Nexora's AI platform, transition operational ownership to internal IT, and prove $1.4M annual ROI to the board.",
     customerStory: "Nexora built an expensive AI tool 6 months ago, but only 12% of staff used it because nobody trained them or updated internal SOPs.",
@@ -728,7 +577,7 @@ export const CURRICULUM_DATA: Mission[] = [
       "Internal IT operations team needing system ownership",
       "Executive board expecting quarterly financial impact reporting"
     ],
-    fdeObjective: "Execute ADKAR Change Management -> Conduct Champion Training -> Deliver Handover Documentation -> Track Adoption Telemetry -> Prove ROI.",
+    fdeObjective: "Execute ADKAR Change Management -> Conduct Champion Training -> Deliver Handover Documentation -> Track Adoption Telemetry -> Prove Financial ROI.",
     concepts: [
       "ADKAR Change Management Model (Awareness, Desire, Knowledge, Ability, Reinforcement)",
       "Operational Handover Package (Runbooks, Architecture Specs, On-Call Playbooks)",
@@ -764,4 +613,3 @@ export const CURRICULUM_DATA: Mission[] = [
     skillsUnlocked: ["Change Management (ADKAR)", "Operational Handover", "Telemetry Adoption Tracking", "Financial ROI Verification", "Pattern Codification"]
   }
 ];
-

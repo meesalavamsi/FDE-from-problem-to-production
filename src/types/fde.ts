@@ -1,8 +1,8 @@
 export interface Mission {
   id: number;
   week: string;
+  month: 'Month 1: Systems & Core AI' | 'Month 2: Agents, MCP & Infrastructure' | 'Month 3: Product, Security & Business ROI';
   title: string;
-  phase: 'Phase 1: Technical Skills' | 'Phase 2: Product Management & Soft Skills';
   category: string;
   mission: string;
   customerStory: string;
@@ -70,7 +70,7 @@ export interface SkillCategory {
   category: string;
   skills: {
     name: string;
-    level: number; // 0 - 100
+    level: number;
     evidence: string[];
   }[];
 }
@@ -83,4 +83,3 @@ export interface CommandMetric {
   details: string;
   history: number[];
 }
-

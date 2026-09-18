@@ -2,21 +2,21 @@ import React, { useState } from 'react';
 import { CURRICULUM_DATA } from '../../data/curriculumData';
 import { Mission } from '../../types/fde';
 import { MissionDetailModal } from './MissionDetailModal';
-import { CheckCircle2, ChevronRight, ShieldCheck, Terminal, Award, Sparkles, Filter } from 'lucide-react';
+import { CheckCircle2, ChevronRight, ShieldCheck, Filter } from 'lucide-react';
 import { useFde } from '../../context/FdeContext';
 
 export const RoadmapSection: React.FC = () => {
   const { completedMissions } = useFde();
-  const [selectedPhase, setSelectedPhase] = useState<string>('All');
+  const [selectedMonth, setSelectedMonth] = useState<string>('All');
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [activeMission, setActiveMission] = useState<Mission | null>(null);
 
   const categories = ['All', ...Array.from(new Set(CURRICULUM_DATA.map(m => m.category)))];
 
   const filteredMissions = CURRICULUM_DATA.filter((m) => {
-    const matchesPhase = selectedPhase === 'All' || m.phase.startsWith(selectedPhase);
+    const matchesMonth = selectedMonth === 'All' || m.month.startsWith(selectedMonth);
     const matchesCategory = activeCategory === 'All' || m.category === activeCategory;
-    return matchesPhase && matchesCategory;
+    return matchesMonth && matchesCategory;
   });
 
   return (
@@ -27,10 +27,10 @@ export const RoadmapSection: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/40 text-cyan-300 text-xs font-mono mb-4 shadow-lg shadow-cyan-500/10">
             <ShieldCheck className="w-4 h-4 text-cyan-400" />
-            <span>24-WEEK SCENARIO-DRIVEN CURRICULUM</span>
+            <span>3-MONTH INTENSIVE ENGINEERING PROGRAM (12 WEEKS)</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-            THE FDE ROADMAP & MISSIONS
+            THE 3-MONTH FDE ROADMAP
           </h2>
           <p className="mt-3 text-slate-300 text-sm sm:text-base">
             Every week is an active enterprise mission with customer stories, architecture design, failure scenarios, decision points, and unlocked skills.
@@ -40,19 +40,19 @@ export const RoadmapSection: React.FC = () => {
         {/* Filters Panel */}
         <div className="p-4 rounded-2xl glass-panel border border-slate-800 mb-12 flex flex-col md:flex-row items-center justify-between gap-4">
           
-          {/* Phase Filter Tabs */}
-          <div className="flex items-center space-x-2">
-            {['All', 'Phase 1', 'Phase 2'].map((phase) => (
+          {/* Month Filter Tabs */}
+          <div className="flex flex-wrap items-center gap-2">
+            {['All', 'Month 1', 'Month 2', 'Month 3'].map((month) => (
               <button
-                key={phase}
-                onClick={() => setSelectedPhase(phase)}
+                key={month}
+                onClick={() => setSelectedMonth(month)}
                 className={`px-4 py-2 rounded-xl text-xs font-mono font-black transition-all border ${
-                  selectedPhase === phase
+                  selectedMonth === month
                     ? 'bg-cyan-500 text-slate-950 border-cyan-400 shadow-lg shadow-cyan-500/30'
                     : 'bg-slate-900/80 text-slate-400 border-slate-800 hover:text-white hover:bg-slate-800'
                 }`}
               >
-                {phase === 'All' ? 'ALL 24 MISSIONS' : phase === 'Phase 1' ? 'PHASE 1: TECHNICAL' : 'PHASE 2: PRODUCT & SOFT SKILLS'}
+                {month === 'All' ? 'ALL 12 WEEKS' : month === 'Month 1' ? 'MONTH 1: CORE SYSTEMS' : month === 'Month 2' ? 'MONTH 2: AGENTS & INFRA' : 'MONTH 3: PRODUCT & ROI'}
               </button>
             ))}
           </div>

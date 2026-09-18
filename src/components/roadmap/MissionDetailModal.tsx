@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Mission } from '../../types/fde';
-import { X, CheckCircle2, AlertTriangle, ArrowRight, ShieldAlert, Cpu, Terminal, BookOpen, Layers, Award } from 'lucide-react';
+import { X, CheckCircle2, AlertTriangle, Terminal } from 'lucide-react';
 import { useFde } from '../../context/FdeContext';
 
 interface MissionDetailModalProps {
@@ -36,7 +36,7 @@ export const MissionDetailModal: React.FC<MissionDetailModalProps> = ({ mission,
             <div className="flex items-center space-x-2 text-xs font-mono text-cyan-400 mb-1">
               <span>{mission.week}</span>
               <span>•</span>
-              <span className="text-slate-400">{mission.phase}</span>
+              <span className="text-slate-400">{mission.month}</span>
             </div>
             <h2 className="text-2xl font-extrabold text-white">{mission.title}</h2>
           </div>
@@ -222,4 +222,3 @@ export const MissionDetailModal: React.FC<MissionDetailModalProps> = ({ mission,
     </div>
   );
 };
-
